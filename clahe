@@ -1,0 +1,27 @@
+import cv2
+
+def clahe_enhance(image_path, clip_limit=2.0, tile_grid_size=(8, 8)):
+    """
+    Applies Contrast Limited Adaptive Histogram Equalization (CLAHE) to an image.
+
+    Args:
+        image_path: Path to the image file.
+        clip_limit: Threshold for contrast limiting.
+        tile_grid_size: Size of the grid for histogram equalization.
+
+    Returns:
+        The enhanced image as a NumPy array, or None if the image cannot be loaded.
+    """
+    try:
+        img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)  # Read as grayscale
+        if img is None:
+            print(f"Error: Could not load image at {image_path}")
+            return None
+
+        clahe = cv2.createCLAHE(clipLimit=clip_limit, tileGridSize=tile_grid_size)
+        enhanced_img = clahe.apply(img)
+        return enhanced_img
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
